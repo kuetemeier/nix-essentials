@@ -46,7 +46,7 @@
           };
         };
 
-        defaultTemplate = self.templates.nix-parts-project;
+        defaultTemplate = self.templates.base;
       };
     };
 }
