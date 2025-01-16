@@ -16,6 +16,15 @@
 
     # treefmt-nix.url = "github:numtide/treefmt-nix";
     # treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # nix-unit.url = "github:nix-community/nix-unit";
+    # nix-unit.inputs.nixpkgs.follows = "nixpkgs";
+    # nix-unit.inputs.flake-parts.follows = "flake-parts";
+    # nix-unit.inputs.nix-github-actions.follows = "nix-github-actions";
+    # nix-unit.inputs.treefmt.follows = "treefmt-nix";
+
+    # nix-github-actions.url = "github:nix-community/nix-github-actions";
+    # nix-github-actions.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {
@@ -26,7 +35,6 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         inputs.flake-parts.flakeModules.partitions
-        # inputs.treefmt-nix.flakeModule
       ];
       systems = [
         "x86_64-linux"
@@ -76,28 +84,22 @@
         };
 
         templates.default = self.templates.base;
-
-        # System-agnostic tests can be defined here,
-        # and will be picked up by `nix flake check`
-        tests.testBar = {
-          expr = "bar";
-          expected = "bar";
-        };
       };
 
       # Extra things to load only when accessing development-specific
       # attributes such as `checks`
-      partitionedAttrs.checks = "dev";
-      partitionedAttrs.devShells = "dev";
-      # partitionedAttrs.tests = "dev"; # lib/modules/flake/dogfood.nix
-      partitions.dev.extraInputsFlake = ./dev;
-      partitions.dev.module = {inputs, ...}: {
+      partitionedAttrs.checks = "nedev";
+      partitionedAttrs.devShells = "nedev";
+      # partitionedAttrs.tests = "nedev";
+      partitions.nedev.extraInputsFlake = ./dev;
+      partitions.nedev.module = {inputs, ...}: {
         imports = [
           inputs.treefmt-nix.flakeModule
         ];
         perSystem = {
           config,
           pkgs,
+          inputs',
           ...
         }: {
           # Use `treefmt` for formatting
@@ -113,7 +115,7 @@
                 pythonEnv
                 pkgs.difftastic
                 config.treefmt.build.wrapper
-                # inputs'.nix-unit.packages.default
+                inputs'.nix-unit.packages.default
                 pkgs.just
               ];
               shellHook = ''
@@ -123,6 +125,21 @@
                 echo "Just run 'j' for a list of possible commands"
               '';
             };
+          # treefmt-nix = inputs.treefmt-nix;
+          # Tests specified here may refer to system-specific attributes that are
+          # available in the `perSystem` context
+          # nix-unit.tests = {
+          #   "test integer equality is reflexive" = {
+          #     expr = "123";
+          #     expected = "123";
+          #   };
+          #   "frobnicator" = {
+          #     "testFoo" = {
+          #       expr = "foo";
+          #       expected = "foo";
+          #     };
+          #   };
+          # };
         };
       };
     };
