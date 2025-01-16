@@ -34,6 +34,7 @@ Specifies the nature of the commit. Common types include:
 - **test:** Adds or modifies tests.
 - **chore:** Updates to build processes or auxiliary tools.
 - **ci:** Changes related to Continuous Integration configurations.
+- **update:** Update of dependencies and modules
 
 ### 2. `scope` (Optional)
 
