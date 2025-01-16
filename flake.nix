@@ -12,6 +12,8 @@
     nix-unit.url = "github:nix-community/nix-unit";
     nix-unit.inputs.nixpkgs.follows = "nixpkgs";
     nix-unit.inputs.flake-parts.follows = "flake-parts";
+
+    treefmt-nix.url = "github:numtide/treefmt-nix";
   };
 
   outputs = inputs @ {
@@ -22,6 +24,7 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         inputs.nix-unit.modules.flake.default
+        inputs.treefmt-nix.flakeModule
       ];
       systems = [
         "x86_64-linux"
@@ -43,6 +46,30 @@
 
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
         packages.default = pkgs.hello;
+
+        packages.nix-unit = inputs'.nix-unit.packages.default;
+
+        devShells.default = let
+          pythonEnv = pkgs.python3.withPackages (_ps: []);
+        in
+          pkgs.mkShell {
+            nativeBuildInputs = [
+              pythonEnv
+              pkgs.difftastic
+              # pkgs.nixdoc
+              # pkgs.mdbook
+              # pkgs.mdbook-open-on-gh
+              # pkgs.mdbook-cmdrun
+              config.treefmt.build.wrapper
+              inputs'.nix-unit.packages.default
+              pkgs.just
+            ];
+            # inherit (self'.packages.nix-unit) buildInputs;
+            # shellHook = lib.optionalString stdenv.isLinux ''
+            #   export NIX_DEBUG_INFO_DIRS="${pkgs.curl.debug}/lib/debug:${drvArgs.nix.debug}/lib/debug''${NIX_DEBUG_INFO_DIRS:+:$NIX_DEBUG_INFO_DIRS}"
+            #   export NIX_UNIT_OUTPATH=${self}
+            # '';
+          };
 
         nix-unit.inputs = {
           # NOTE: a `nixpkgs-lib` follows rule is currently required
