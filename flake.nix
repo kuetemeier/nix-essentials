@@ -14,11 +14,6 @@
     # Use nixos-unstable as default
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    nix-unit.url = "github:nix-community/nix-unit";
-    nix-unit.inputs.nixpkgs.follows = "nixpkgs";
-    nix-unit.inputs.flake-parts.follows = "flake-parts";
-    nix-unit.inputs.treefmt-nix.follows = "treefmt-nix";
-
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -30,8 +25,8 @@
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
-        inputs.nix-unit.modules.flake.default
         inputs.flake-parts.flakeModules.partitions
+        inputs.treefmt-nix.flakeModule
       ];
       systems = [
         "x86_64-linux"
@@ -41,18 +36,21 @@
       ];
       perSystem = {
         config,
-        inputs',
         pkgs,
         ...
-      }: {
+      }: let
+        flat-check = pkgs.runCommandLocal "flat-check" {} ''
+          echo "Hello World"
+          mkdir $out
+          exit 0
+        '';
+      in {
         # Per-system attributes can be defined here. The self' and inputs'
         # module parameters provide easy access to attributes of the same
         # system.
 
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
         packages.default = pkgs.hello;
-
-        packages.nix-unit = inputs'.nix-unit.packages.default;
 
         devShells.default = let
           pythonEnv = pkgs.python3.withPackages (_ps: []);
@@ -62,7 +60,7 @@
               pythonEnv
               pkgs.difftastic
               config.treefmt.build.wrapper
-              inputs'.nix-unit.packages.default
+              # inputs'.nix-unit.packages.default
               pkgs.just
             ];
             shellHook = ''
@@ -72,25 +70,7 @@
               echo "Just run 'j' for a list of possible commands"
             '';
           };
-
-        nix-unit.inputs = {
-          # NOTE: a `nixpkgs-lib` follows rule is currently required
-          inherit (inputs) nixpkgs flake-parts nix-unit;
-        };
-        # Tests specified here may refer to system-specific attributes that are
-        # available in the `perSystem` context
-        nix-unit.tests = {
-          "test integer equality is reflexive" = {
-            expr = "123";
-            expected = "123";
-          };
-          "frobnicator" = {
-            "testFoo" = {
-              expr = "foo";
-              expected = "foo";
-            };
-          };
-        };
+        checks = {inherit flat-check;};
       };
       flake = {
         # The usual flake attributes can be defined here, including system-
@@ -131,8 +111,6 @@
       partitions.dev.module = {
         imports = [
           inputs.treefmt-nix.flakeModule
-          # self.modules.flake.default
-          # ./lib/modules/flake/dogfood.nix
         ];
         perSystem = {...}: {
           # Use `treefmt` for formatting
