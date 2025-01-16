@@ -3,6 +3,12 @@
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+
+    # nix-essentials.url = "git+ssh://git@git.kuetemeier.one/jkr/nix-essentials?ref=main";
+    nix-essentials.url = "github:kuetemeier/nix-essentials?ref=main";
+    nix-essentials.inputs.nixpkgs.follows = "nixpkgs";
+
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
