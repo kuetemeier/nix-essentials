@@ -24,7 +24,7 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         inputs.nix-unit.modules.flake.default
-        inputs.treefmt-nix.flakeModule
+        inputs.flake-parts.flakeModules.partitions
       ];
       systems = [
         "x86_64-linux"
@@ -71,6 +71,9 @@
             # '';
           };
 
+        # Use `treefmt` for formatting - see https://github.com/numtide/treefmt-nix
+        # Config:
+
         nix-unit.inputs = {
           # NOTE: a `nixpkgs-lib` follows rule is currently required
           inherit (inputs) nixpkgs flake-parts nix-unit;
@@ -109,6 +112,22 @@
         tests.testBar = {
           expr = "bar";
           expected = "bar";
+        };
+      };
+
+      # Extra things to load only when accessing development-specific attributes
+      # such as `checks`
+      partitionedAttrs.checks = "dev";
+      partitionedAttrs.devShells = "dev";
+      partitionedAttrs.tests = "dev"; # lib/modules/flake/dogfood.nix
+      partitions.dev.module = {
+        imports = [
+          inputs.treefmt-nix.flakeModule
+          # self.modules.flake.default
+          # ./lib/modules/flake/dogfood.nix
+        ];
+        perSystem = {
+          treefmt.imports = [./dev/treefmt.nix];
         };
       };
     };
