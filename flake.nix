@@ -41,10 +41,8 @@
       ];
       perSystem = {
         config,
-        self',
         inputs',
         pkgs,
-        system,
         ...
       }: {
         # Per-system attributes can be defined here. The self' and inputs'
@@ -60,22 +58,19 @@
           pythonEnv = pkgs.python3.withPackages (_ps: []);
         in
           pkgs.mkShell {
-            nativeBuildInputs = [
+            packages = [
               pythonEnv
               pkgs.difftastic
-              # pkgs.nixdoc
-              # pkgs.mdbook
-              # pkgs.mdbook-open-on-gh
-              # pkgs.mdbook-cmdrun
               config.treefmt.build.wrapper
               inputs'.nix-unit.packages.default
               pkgs.just
             ];
-            # inherit (self'.packages.nix-unit) buildInputs;
-            # shellHook = lib.optionalString stdenv.isLinux ''
-            #   export NIX_DEBUG_INFO_DIRS="${pkgs.curl.debug}/lib/debug:${drvArgs.nix.debug}/lib/debug''${NIX_DEBUG_INFO_DIRS:+:$NIX_DEBUG_INFO_DIRS}"
-            #   export NIX_UNIT_OUTPATH=${self}
-            # '';
+            shellHook = ''
+              alias j=just
+              echo $'\e[1;32mWelcom to development Shell~\e[0m'
+              echo -n "Hint: 'just' is aliased to 'j'. "
+              echo "Just run 'j' for a list of possible commands"
+            '';
           };
 
         nix-unit.inputs = {
@@ -120,16 +115,16 @@
 
         templates.default = self.templates.base;
 
-        # System-agnostic tests can be defined here, and will be picked up by
-        # `nix flake check`
+        # System-agnostic tests can be defined here,
+        # and will be picked up by `nix flake check`
         tests.testBar = {
           expr = "bar";
           expected = "bar";
         };
       };
 
-      # Extra things to load only when accessing development-specific attributes
-      # such as `checks`
+      # Extra things to load only when accessing development-specific
+      # attributes such as `checks`
       partitionedAttrs.checks = "dev";
       partitionedAttrs.devShells = "dev";
       partitionedAttrs.tests = "dev"; # lib/modules/flake/dogfood.nix
@@ -139,10 +134,11 @@
           # self.modules.flake.default
           # ./lib/modules/flake/dogfood.nix
         ];
-        perSystem = {config, ...}: {
-          # Use `treefmt` for formatting - see https://github.com/numtide/treefmt-nix
-          # Config:
-          treefmt.imports = [./dev/treefmt.nix];
+        perSystem = {...}: {
+          # Use `treefmt` for formatting
+          # GitHub: https://github.com/numtide/treefmt-nix
+          # Import treefmt config
+          treefmt.imports = [./treefmt.nix];
         };
       };
     };
