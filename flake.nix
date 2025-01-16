@@ -1,3 +1,8 @@
+# flake.nix - Main flake file
+#
+# SPDX-FileCopyrightText: 2020-2025 Jörg Kütemeier <https://kuetemeier.de/>
+# SPDX-License-Identifier: MPL-2.0
+#
 {
   description = "Description for the project";
 
@@ -12,8 +17,10 @@
     nix-unit.url = "github:nix-community/nix-unit";
     nix-unit.inputs.nixpkgs.follows = "nixpkgs";
     nix-unit.inputs.flake-parts.follows = "flake-parts";
+    nix-unit.inputs.treefmt-nix.follows = "treefmt-nix";
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {
@@ -71,9 +78,6 @@
             # '';
           };
 
-        # Use `treefmt` for formatting - see https://github.com/numtide/treefmt-nix
-        # Config:
-
         nix-unit.inputs = {
           # NOTE: a `nixpkgs-lib` follows rule is currently required
           inherit (inputs) nixpkgs flake-parts nix-unit;
@@ -97,6 +101,15 @@
         # The usual flake attributes can be defined here, including system-
         # agnostic ones like nixosModule and system-enumerating ones, although
         # those are more easily expressed in perSystem.
+
+        # Configuration for flat-flake
+        # Allow some exceptions for the "flat" check of this flake
+        # GitHub: https://github.com/linyinfeng/flat-flake
+        flatFlake = {
+          allowed = [
+            ["nix-unit" "nix-github-actions"]
+          ];
+        };
 
         templates = {
           base = {
@@ -126,7 +139,9 @@
           # self.modules.flake.default
           # ./lib/modules/flake/dogfood.nix
         ];
-        perSystem = {
+        perSystem = {config, ...}: {
+          # Use `treefmt` for formatting - see https://github.com/numtide/treefmt-nix
+          # Config:
           treefmt.imports = [./dev/treefmt.nix];
         };
       };
