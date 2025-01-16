@@ -17,7 +17,7 @@
   ];
 
   # Scan Nix files for dead code
-  programs.deadnix.enable = true;
+  # programs.deadnix.enable = true;
 
   # Our nix file formatter
   programs.alejandra.enable = true;

@@ -14,8 +14,8 @@
     # Use nixos-unstable as default
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    treefmt-nix.url = "github:numtide/treefmt-nix";
-    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+    # treefmt-nix.url = "github:numtide/treefmt-nix";
+    # treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {
@@ -26,7 +26,7 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         inputs.flake-parts.flakeModules.partitions
-        inputs.treefmt-nix.flakeModule
+        # inputs.treefmt-nix.flakeModule
       ];
       systems = [
         "x86_64-linux"
@@ -52,25 +52,7 @@
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
         packages.default = pkgs.hello;
 
-        devShells.default = let
-          pythonEnv = pkgs.python3.withPackages (_ps: []);
-        in
-          pkgs.mkShell {
-            packages = [
-              pythonEnv
-              pkgs.difftastic
-              config.treefmt.build.wrapper
-              # inputs'.nix-unit.packages.default
-              pkgs.just
-            ];
-            shellHook = ''
-              alias j=just
-              echo $'\e[1;32mWelcom to development Shell~\e[0m'
-              echo -n "Hint: 'just' is aliased to 'j'. "
-              echo "Just run 'j' for a list of possible commands"
-            '';
-          };
-        checks = {inherit flat-check;};
+        # checks = {inherit flat-check;};
       };
       flake = {
         # The usual flake attributes can be defined here, including system-
@@ -107,16 +89,40 @@
       # attributes such as `checks`
       partitionedAttrs.checks = "dev";
       partitionedAttrs.devShells = "dev";
-      partitionedAttrs.tests = "dev"; # lib/modules/flake/dogfood.nix
-      partitions.dev.module = {
+      # partitionedAttrs.tests = "dev"; # lib/modules/flake/dogfood.nix
+      partitions.dev.extraInputsFlake = ./dev;
+      partitions.dev.module = {inputs, ...}: {
         imports = [
           inputs.treefmt-nix.flakeModule
         ];
-        perSystem = {...}: {
+        perSystem = {
+          config,
+          pkgs,
+          ...
+        }: {
           # Use `treefmt` for formatting
           # GitHub: https://github.com/numtide/treefmt-nix
           # Import treefmt config
           treefmt.imports = [./treefmt.nix];
+
+          devShells.default = let
+            pythonEnv = pkgs.python3.withPackages (_ps: []);
+          in
+            pkgs.mkShell {
+              packages = [
+                pythonEnv
+                pkgs.difftastic
+                config.treefmt.build.wrapper
+                # inputs'.nix-unit.packages.default
+                pkgs.just
+              ];
+              shellHook = ''
+                alias j=just
+                echo $'\e[1;32mWelcom to development Shell~\e[0m'
+                echo -n "Hint: 'just' is aliased to 'j'. "
+                echo "Just run 'j' for a list of possible commands"
+              '';
+            };
         };
       };
     };
