@@ -99,8 +99,8 @@ Closes #45
 
 1. **Readability:** Clearly structured and standardized commit history.
 2. **Automation:** Supports tools like:
-   - *commitlint* for enforcing message rules.
-   - *standard-version* for automated changelog generation.
+   - _commitlint_ for enforcing message rules.
+   - _standard-version_ for automated changelog generation.
 3. **Semantic Versioning:** Enables automatic versioning based on commit types
    (e.g., `fix` for patches, `feat` for minor updates, `BREAKING CHANGE` for
    major releases).

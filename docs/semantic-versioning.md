@@ -48,4 +48,3 @@ Version: 1.2.3
 ## Resources
 
 - [Semantic Versioning Official Site](https://semver.org)
-
