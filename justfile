@@ -22,3 +22,12 @@ health:
 # Ensure Flake inputs are flat
 flat:
     nix run github:linyinfeng/flat-flake -- check .
+
+alias t := tests
+alias test := tests
+
+# Run Unit-Tests
+tests:
+    @nix-unit \
+      --flake .#tests.systems.x86_64-linux
+#      --eval-store "{{justfile_directory()}}" \

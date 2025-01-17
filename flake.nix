@@ -13,21 +13,6 @@
 
     # Use nixos-unstable as default
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    treefmt-nix.url = "github:numtide/treefmt-nix";
-    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    nix-unit.url = "github:nix-community/nix-unit";
-    nix-unit.inputs.nixpkgs.follows = "nixpkgs";
-    nix-unit.inputs.flake-parts.follows = "flake-parts";
-    nix-unit.inputs.treefmt-nix.follows = "treefmt-nix";
-    nix-unit.inputs.nix-github-actions.follows = "nix-github-actions";
-
-    nix-github-actions.url = "github:nix-community/nix-github-actions";
-    nix-github-actions.inputs.nixpkgs.follows = "nixpkgs";
-
-    # flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
-    flake-compat.url = "github:edolstra/flake-compat?ref=9ed2ac151eada2306ca8c418ebd97807bb08f6ac";
   };
 
   outputs = inputs @ {
@@ -135,9 +120,18 @@
           nix-unit.package = inputs'.nix-unit.packages.nix-unit;
           nix-unit.inputs = {
             # NOTE: a `nixpkgs-lib` follows rule is currently required
-            inherit (inputs) nixpkgs flake-parts nix-unit treefmt-nix flake-compat;
+            inherit (inputs) nixpkgs flake-parts treefmt-nix flake-compat;
           };
-          # nix-unit.allowNetwork = true;
+          nix-unit.allowNetwork = true;
+
+          checks = {
+            test =
+              pkgs.runCommandLocal "ensure-dependencies" {
+              } ''
+                echo "${inputs.flake-compat.rev}"
+                touch "$out"
+              '';
+          };
 
           # checks = {
           #   tests =
