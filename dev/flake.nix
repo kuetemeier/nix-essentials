@@ -18,10 +18,12 @@
     nix-unit.inputs.nixpkgs.follows = "nixpkgs";
     nix-unit.inputs.flake-parts.follows = "flake-parts";
     nix-unit.inputs.nix-github-actions.follows = "nix-github-actions";
-    nix-unit.inputs.treefmt.follows = "treefmt-nix";
+    nix-unit.inputs.treefmt-nix.follows = "treefmt-nix";
 
     nix-github-actions.url = "github:nix-community/nix-github-actions";
     nix-github-actions.inputs.nixpkgs.follows = "nixpkgs";
+
+    flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
   };
 
   # This flake is only used for its inputs.

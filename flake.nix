@@ -14,17 +14,19 @@
     # Use nixos-unstable as default
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # treefmt-nix.url = "github:numtide/treefmt-nix";
-    # treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # nix-unit.url = "github:nix-community/nix-unit";
-    # nix-unit.inputs.nixpkgs.follows = "nixpkgs";
-    # nix-unit.inputs.flake-parts.follows = "flake-parts";
-    # nix-unit.inputs.nix-github-actions.follows = "nix-github-actions";
-    # nix-unit.inputs.treefmt.follows = "treefmt-nix";
+    nix-unit.url = "github:nix-community/nix-unit";
+    nix-unit.inputs.nixpkgs.follows = "nixpkgs";
+    nix-unit.inputs.flake-parts.follows = "flake-parts";
+    nix-unit.inputs.treefmt-nix.follows = "treefmt-nix";
+    nix-unit.inputs.nix-github-actions.follows = "nix-github-actions";
 
-    # nix-github-actions.url = "github:nix-community/nix-github-actions";
-    # nix-github-actions.inputs.nixpkgs.follows = "nixpkgs";
+    nix-github-actions.url = "github:nix-community/nix-github-actions";
+    nix-github-actions.inputs.nixpkgs.follows = "nixpkgs";
+
+    flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
   };
 
   outputs = inputs @ {
@@ -71,9 +73,9 @@
         # Allow some exceptions for the "flat" check of this flake
         # GitHub: https://github.com/linyinfeng/flat-flake
         flatFlake = {
-          allowed = [
-            ["nix-unit" "nix-github-actions"]
-          ];
+          # allowed = [
+          #   ["nix-unit" "nix-github-actions"]
+          # ];
         };
 
         templates = {
@@ -90,16 +92,19 @@
       # attributes such as `checks`
       partitionedAttrs.checks = "nedev";
       partitionedAttrs.devShells = "nedev";
-      # partitionedAttrs.tests = "nedev";
+      partitionedAttrs.tests = "nedev";
       partitions.nedev.extraInputsFlake = ./dev;
       partitions.nedev.module = {inputs, ...}: {
         imports = [
           inputs.treefmt-nix.flakeModule
+          inputs.nix-unit.modules.flake.default
         ];
         perSystem = {
           config,
           pkgs,
           inputs',
+          system,
+          lib,
           ...
         }: {
           # Use `treefmt` for formatting
@@ -125,6 +130,34 @@
                 echo "Just run 'j' for a list of possible commands"
               '';
             };
+
+          nix-unit.package = inputs'.nix-unit.packages.nix-unit;
+          nix-unit.inputs = {
+            # NOTE: a `nixpkgs-lib` follows rule is currently required
+            inherit (inputs) nixpkgs flake-parts nix-unit treefmt-nix flake-compat;
+          };
+          nix-unit.allowNetwork = true;
+
+          # checks = {
+          #   tests =
+          #     pkgs.runCommand "tests"
+          #     {
+          #       nativeBuildInputs = [
+          #         # inputs.nix-unit.packages.${system}.default
+          #         inputs'.nix-unit.packages.default
+          #       ];
+          #     } ''
+          #       export HOME="$(realpath .)"
+          #       # The nix derivation must be able to find all used inputs in the nix-store
+          #       # because it cannot download it during buildTime.
+          #       nix-unit --eval-store "$HOME" \
+          #       --extra-experimental-features flakes \
+          #       ${lib.concatStringsSep " " (lib.mapAttrsToList (name: value: "--override-input ${name} ${value}") (lib.filterAttrs (name: _: name != "self" && name != "nix-unit") inputs))} \
+          #       --flake ${self}#tests
+          #       touch $out
+          #     '';
+          # };
+
           # treefmt-nix = inputs.treefmt-nix;
           # Tests specified here may refer to system-specific attributes that are
           # available in the `perSystem` context
@@ -140,6 +173,12 @@
           #     };
           #   };
           # };
+        };
+      };
+      flake = {
+        tests.testPass = {
+          expr = 3;
+          expected = 3;
         };
       };
     };
