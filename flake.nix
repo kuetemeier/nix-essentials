@@ -26,7 +26,8 @@
     nix-github-actions.url = "github:nix-community/nix-github-actions";
     nix-github-actions.inputs.nixpkgs.follows = "nixpkgs";
 
-    flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
+    # flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
+    flake-compat.url = "github:edolstra/flake-compat?ref=9ed2ac151eada2306ca8c418ebd97807bb08f6ac";
   };
 
   outputs = inputs @ {
@@ -136,7 +137,7 @@
             # NOTE: a `nixpkgs-lib` follows rule is currently required
             inherit (inputs) nixpkgs flake-parts nix-unit treefmt-nix flake-compat;
           };
-          nix-unit.allowNetwork = true;
+          # nix-unit.allowNetwork = true;
 
           # checks = {
           #   tests =
@@ -158,28 +159,27 @@
           #     '';
           # };
 
-          # treefmt-nix = inputs.treefmt-nix;
           # Tests specified here may refer to system-specific attributes that are
           # available in the `perSystem` context
-          # nix-unit.tests = {
-          #   "test integer equality is reflexive" = {
-          #     expr = "123";
-          #     expected = "123";
-          #   };
-          #   "frobnicator" = {
-          #     "testFoo" = {
-          #       expr = "foo";
-          #       expected = "foo";
-          #     };
-          #   };
-          # };
+          nix-unit.tests = {
+            "test integer equality is reflexive" = {
+              expr = "123";
+              expected = "123";
+            };
+            "frobnicator" = {
+              "testFoo" = {
+                expr = "foo";
+                expected = "foo";
+              };
+            };
+          };
         };
       };
-      flake = {
-        tests.testPass = {
-          expr = 3;
-          expected = 3;
-        };
-      };
+      # flake = {
+      #   tests.testPass = {
+      #     expr = 3;
+      #     expected = 3;
+      #   };
+      # };
     };
 }

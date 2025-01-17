@@ -23,7 +23,10 @@
     nix-github-actions.url = "github:nix-community/nix-github-actions";
     nix-github-actions.inputs.nixpkgs.follows = "nixpkgs";
 
-    flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
+    # This relates to the hardcoded version of flflake-compat in partitions
+    # from flflake-parts. You can find this in the file
+    # https://github.com/hercules-ci/flake-parts/blob/main/extras/partitions.nix
+    flake-compat.url = "github:edolstra/flake-compat?ref=9ed2ac151eada2306ca8c418ebd97807bb08f6ac";
   };
 
   # This flake is only used for its inputs.
