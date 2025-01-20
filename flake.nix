@@ -34,21 +34,30 @@
         config,
         pkgs,
         ...
-      }: let
-        flat-check = pkgs.runCommandLocal "flat-check" {} ''
-          echo "Hello World"
-          mkdir $out
-          exit 0
-        '';
-      in {
+      }: {
+        # }: let
+        #   checkFlatFlake =
+        #     pkgs.runCommand "checkFlatFlake" {
+        #       nativeBuildInputs = [
+        #         pkgs.nix
+        #       ];
+        #     } ''
+        #       mkdir $out
+        #       nix --sandbox false --extra-experimental-features nix-command \
+        #         run github:linyinfeng/flat-flake -- check ${self}
+        #     '';
+        # in {
         # Per-system attributes can be defined here. The self' and inputs'
         # module parameters provide easy access to attributes of the same
         # system.
 
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
         packages.default = pkgs.hello;
+        # packages.checkFlatFlake = checkFlatFlake;
 
-        # checks = {inherit flat-check;};
+        # checks = {
+        #   inherit flat-check;
+        # };
       };
       flake = {
         # The usual flake attributes can be defined here, including system-
@@ -79,6 +88,7 @@
       partitionedAttrs.checks = "nedev";
       partitionedAttrs.devShells = "nedev";
       partitionedAttrs.tests = "nedev";
+      partitionedAttrs.formatter = "nedev";
       partitions.nedev.extraInputsFlake = ./dev;
       partitions.nedev.module = {inputs, ...}: {
         imports = [
@@ -96,7 +106,9 @@
           # Use `treefmt` for formatting
           # GitHub: https://github.com/numtide/treefmt-nix
           # Import treefmt config
-          treefmt.imports = [./treefmt.nix];
+          treefmt.imports = [./dev/treefmt.nix];
+
+          formatter = config.treefmt.build.wrapper;
 
           devShells.default = let
             pythonEnv = pkgs.python3.withPackages (_ps: []);
