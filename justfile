@@ -30,4 +30,5 @@ alias test := tests
 tests:
     @nix-unit \
       --flake .#tests.systems.x86_64-linux
+
 #      --eval-store "{{justfile_directory()}}" \
