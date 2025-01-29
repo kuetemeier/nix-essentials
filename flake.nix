@@ -35,7 +35,7 @@
         flakeModules = {
           dev = importApply ./flakeModules/dev {inherit withSystem moduleWithSystem importApply;};
         };
-        flakeModules.default = flakeModules.helixPackages;
+        flakeModules.default = flakeModules.dev;
       in {
         imports =
           [
