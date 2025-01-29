@@ -49,7 +49,7 @@ localFlake: {
           ];
           shellHook = ''
             alias j=just
-            echo $'\e[1;32mWelcom to development Shell~\e[0m'
+            echo $'\e[1;32mWelcome to development Shell~\e[0m'
             echo -n "Hint: 'just' is aliased to 'j'. "
             echo "Just run 'j' for a list of possible commands"
           '';
