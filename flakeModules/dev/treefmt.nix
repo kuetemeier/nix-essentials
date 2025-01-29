@@ -14,6 +14,9 @@
     # Ignore some files in the template directories
     "templates/**/LICENSE"
     "templates/**/.gitignore"
+
+    # Editorconfig settings
+    ".editorconfig"
   ];
 
   # Scan Nix files for dead code

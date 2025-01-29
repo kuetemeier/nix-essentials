@@ -14,6 +14,7 @@ alias fmt := format
 # Format and lint all souce files
 format:
     treefmt
+    editorconfig-checker
 
 # Health Check for nix environment
 health:

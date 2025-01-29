@@ -46,6 +46,7 @@ localFlake: {
             config.treefmt.build.wrapper
             inputs'.nix-unit.packages.default
             pkgs.just
+            pkgs.editorconfig-checker
           ];
           shellHook = ''
             alias j=just
@@ -85,7 +86,9 @@ localFlake: {
       #       # because it cannot download it during buildTime.
       #       nix-unit --eval-store "$HOME" \
       #       --extra-experimental-features flakes \
-      #       ${lib.concatStringsSep " " (lib.mapAttrsToList (name: value: "--override-input ${name} ${value}") (lib.filterAttrs (name: _: name != "self" && name != "nix-unit") inputs))} \
+      #       ${lib.concatStringsSep " "
+      #         (lib.mapAttrsToList (name: value: "--override-input ${name} ${value}")
+      #           (lib.filterAttrs (name: _: name != "self" && name != "nix-unit") inputs))} \
       #       --flake ${self}#tests
       #       touch $out
       #     '';
