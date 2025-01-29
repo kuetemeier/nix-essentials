@@ -45,8 +45,6 @@
             dev
           ]);
 
-        inherit flakeModules;
-
         systems = [
           "x86_64-linux"
           "aarch64-linux"
@@ -55,6 +53,8 @@
         ];
 
         flake = {
+          inherit flakeModules;
+
           templates = {
             base = {
               path = ./templates/base;
