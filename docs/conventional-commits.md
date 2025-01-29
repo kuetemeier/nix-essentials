@@ -97,13 +97,15 @@ Closes #45
 
 ## Benefits
 
-1. **Readability:** Clearly structured and standardized commit history.
-2. **Automation:** Supports tools like:
-   - _commitlint_ for enforcing message rules.
-   - _standard-version_ for automated changelog generation.
-3. **Semantic Versioning:** Enables automatic versioning based on commit types
-   (e.g., `fix` for patches, `feat` for minor updates, `BREAKING CHANGE` for
-   major releases).
+1.  **Readability:** Clearly structured and standardized commit history.
+2.  **Automation:** Supports tools like:
+
+    - _commitlint_ for enforcing message rules.
+    - _standard-version_ for automated changelog generation.
+
+3.  **Semantic Versioning:** Enables automatic versioning based on commit types
+    (e.g., `fix` for patches, `feat` for minor updates, `BREAKING CHANGE` for
+    major releases).
 
 ## Tools
 

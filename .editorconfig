@@ -100,7 +100,7 @@ indent_size = 4
 # Rust
 # Rust community standard is generally 4 spaces.
 # Source: https://github.com/rust-dev-tools/fmt-rfcs
-# and     https://doc.rust-lang.org/edition-guide/rust-2018/style/whitespace.html
+# and https://doc.rust-lang.org/edition-guide/rust-2018/style/whitespace.html
 [*.rs]
 indent_style = space
 indent_size = 4
@@ -124,14 +124,16 @@ indent_style = tab
 tab_width = 8
 
 # Batch files
-# Source: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands
+# Source: https://docs.microsoft.com/en-us/windows-server/administration/\
+#         windows-commands/windows-commands
 [*.bat]
 end_of_line = crlf
 indent_style = space
 indent_size = 4
 
 # PowerShell
-# Source: https://docs.microsoft.com/en-us/powershell/scripting/learn/deep-dives/effective-powershell
+# Source: https://docs.microsoft.com/en-us/powershell/scripting/learn/\
+#         deep-dives/effective-powershell
 [*.{ps,ps1}]
 end_of_line = crlf
 indent_style = space

@@ -10,23 +10,24 @@ up-to-date codebase while minimizing merge conflicts.
 
 1. **Immediate Feedback:**
 
-   - Small commits trigger quick feedback from automated tests.
-   - Developers are alerted early about issues, making them easier to resolve.
+- Small commits trigger quick feedback from automated tests.
+- Developers are alerted early about issues, making them easier to resolve.
 
 2. **Conflict Reduction:**
 
-   - Frequent commits reduce the risk of large merge conflicts.
-   - Small changes are easier to merge and review.
+- Frequent commits reduce the risk of large merge conflicts.
+- Small changes are easier to merge and review.
 
 3. **Team Collaboration:**
 
-   - A shared, current codebase ensures all team members work on the latest
-     version.
-   - This avoids duplication of work or efforts based on outdated code.
+- A shared, current codebase ensures all team members work on the latest
+  version.
+- This avoids duplication of work or efforts based on outdated code.
 
 4. **Debugging Simplicity:**
-   - With smaller changes, identifying the cause of bugs becomes straightforward.
-   - The commit history is granular and descriptive.
+
+- With smaller changes, identifying the cause of bugs becomes straightforward.
+- The commit history is granular and descriptive.
 
 ## Writing Tests for Each Change
 
@@ -42,20 +43,21 @@ Testing is crucial to ensure the stability of small, frequent commits:
 
 1. **Use Descriptive Commit Messages:**
 
-   - Clearly state what each commit does.
-   - Example: `fix(auth): resolve token validation bug`
+- Clearly state what each commit does.
+- Example: `fix(auth): resolve token validation bug`
 
 2. **Focus on Incremental Changes:**
 
-   - Keep commits small and focused on one task or bug.
+- Keep commits small and focused on one task or bug.
 
 3. **Ensure Code Coverage:**
 
-   - Write tests for all added or changed functionality.
+- Write tests for all added or changed functionality.
 
 4. **Leverage Automation:**
-   - Use CI tools (e.g., Jenkins, GitHub Actions) to automate build and test
-     processes.
+
+- Use CI tools (e.g., Jenkins, GitHub Actions) to automate build and test
+  processes.
 
 ## Conclusion
 

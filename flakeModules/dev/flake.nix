@@ -1,5 +1,9 @@
 {
-  description = "Private inputs for development purposes. These are used by the top level flake in the `dev` partition, but do not appear in consumers' lock files.";
+  description = ''
+    Private inputs for development purposes. These are used by the top level flake in the `dev`
+    partition, but do not appear in consumers' lock files.
+  '';
+
   inputs = {
     # flake-parts.url = "github:hercules-ci/flake-parts";
     # # flake-parts use nixos-unstable

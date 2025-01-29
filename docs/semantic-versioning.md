@@ -22,9 +22,10 @@ MAJOR.MINOR.PATCH
 1. **Initial Development:** Versions start at `0.y.z`. Anything may change.
 2. **Stable Releases:** Start with `1.0.0`. Follows strict rules for changes.
 3. **Incrementing Versions:**
-   - **MAJOR:** Introduce breaking changes.
-   - **MINOR:** Add functionality, no breaking changes.
-   - **PATCH:** Fix bugs, no new functionality.
+
+- **MAJOR:** Introduce breaking changes.
+- **MINOR:** Add functionality, no breaking changes.
+- **PATCH:** Fix bugs, no new functionality.
 
 ## Example
 
