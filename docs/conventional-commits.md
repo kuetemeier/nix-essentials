@@ -24,17 +24,16 @@ A commit message should follow this format:
 
 Specifies the nature of the commit. Common types include:
 
-- **feat:** Introduces a new feature.
-- **wip:** Work in Progess (to build a feature)
-- **fix:** Fixes a bug.
-- **docs:** Documentation-only changes.
-- **style:** Changes that do not affect code behavior (e.g., formatting, whitespace).
-- **refactor:** Code changes that neither fix a bug nor add a feature.
-- **perf:** Changes that improve performance.
-- **test:** Adds or modifies tests.
-- **chore:** Updates to build processes or auxiliary tools.
-- **ci:** Changes related to Continuous Integration configurations.
-- **update:** Update of dependencies and modules
+- **Feature:** Introduces a new feature.
+- **WIP:** Work in Progess (to build a feature)
+- **Fix:** Fixes a bug.
+- **Docs:** Documentation-only changes.
+- **Style:** Changes that do not affect code behavior (e.g., formatting, whitespace).
+- **Refactor:** Code changes that neither fix a bug nor add a feature.
+- **Perf:** Changes that improve performance.
+- **Test:** Adds or modifies tests.
+- **Chore:** Updates to build processes or auxiliary tools.
+- **CI:** Changes related to Continuous Integration configurations.
 
 ### 2. `scope` (Optional)
 
