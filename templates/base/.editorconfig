@@ -1,0 +1,186 @@
+# Indicates that this is the root .editorconfig file and stops searching for
+# other .editorconfig files in parent directories.
+root = true
+
+[*]
+# Encoding: UTF-8
+# Common standard for text files.
+charset = utf-8
+
+# End of Line: LF (Unix-Style)
+# Recommendation for consistent, cross-platform projects.
+end_of_line = lf
+
+# Final Newline: Yes
+# POSIX-Standards empfehlen Newline am Datei-Ende.
+insert_final_newline = true
+
+# Max Line Length: 100 characters
+# 100 characters is a common standard in most languages and projects
+# This improves code readability
+max_line_length = 100
+
+# Trim Trailing Whitespace: Yes
+# Prevents unnecessary whitespace and ensures clean code.
+trim_trailing_whitespace = true
+
+# Set default value: Indent with spaces
+indent_style = space
+indent_size = 2
+
+# Markdown and Text Files
+# Widely adopted standard for readability.
+# Source: https://github.github.com/gfm/
+[*.{txt,md,markdown,rst}]
+indent_style = space
+indent_size = 2
+
+# JSON
+# Common standard (e.g., used by `jq` and many formatters).
+# Source: https://www.json.org/json-en.html
+[*.json]
+indent_style = space
+indent_size = 2
+
+# YAML
+# YAML forbids tabs (possible misinterpretations). 2 spaces are standard.
+# Source: https://yaml.org/spec/
+[*.yml,*.yaml]
+indent_style = space
+indent_size = 2
+
+# JavaScript
+# Many JS style guides (e.g., Airbnb) recommend 2 spaces.
+# Source: https://github.com/airbnb/javascript
+[*.js]
+indent_style = space
+indent_size = 2
+
+# TypeScript
+# TypeScript follows similar conventions to JavaScript.
+# Source: https://github.com/microsoft/TypeScript/wiki/Coding-guidelines
+[*.ts]
+indent_style = space
+indent_size = 2
+
+# HTML
+# Common standard for HTML files.
+# Source: https://www.w3.org/TR/html5/
+[*.html]
+indent_style = space
+indent_size = 2
+
+# CSS
+# Common standard for CSS files.
+# Source: https://www.w3.org/Style/CSS/
+[*.css]
+indent_style = space
+indent_size = 2
+
+# Nix
+# Nixpkgs community favors 2 spaces for readability.
+# Source: https://nixos.org/manual/nixpkgs/stable/#editor-setup
+[*.nix]
+indent_style = space
+indent_size = 2
+
+# Python (PEP 8)
+# PEP 8 recommends 4 spaces, no tabs.
+# Source: https://peps.python.org/pep-0008/#indentation
+[*.py]
+indent_style = space
+indent_size = 4
+# 79 characters are recommended in Python PEP8
+# https://peps.python.org/pep-0008/
+max_line_length = 79
+
+# Java / Scala
+# Many Java/Scala projects follow 4 spaces conventions.
+# Source: https://google.github.io/styleguide/javaguide.html
+[*.{java,scala}]
+indent_style = space
+indent_size = 4
+
+# Rust
+# Rust community standard is generally 4 spaces.
+# Source: https://github.com/rust-dev-tools/fmt-rfcs
+# and https://doc.rust-lang.org/edition-guide/rust-2018/style/whitespace.html
+[*.rs]
+indent_style = space
+indent_size = 4
+
+# Maximum line length according to rustfmt default (100 characters)
+# Source: https://github.com/rust-lang/rustfmt/blob/master/Configurations.md
+max_line_length = 100
+
+# Zig
+# Zig examples and official guidelines generally use 4 spaces.
+# Source: https://ziglang.org/
+# and     https://github.com/ziglang/zig/wiki/Code-Style
+[*.zig]
+indent_style = space
+indent_size = 4
+
+# Go (gofmt uses tabs)
+# Source: https://golang.org/cmd/gofmt/
+# Go Doc uses 4 spaces for a Tab, so we use a tab_width of '4'
+[*.go]
+indent_style = tab
+tab_width = 4
+
+# Batch files
+# Source: https://docs.microsoft.com/en-us/windows-server/administration/\
+#         windows-commands/windows-commands
+[*.bat]
+end_of_line = crlf
+indent_style = space
+indent_size = 4
+
+# PowerShell
+# Source: https://docs.microsoft.com/en-us/powershell/scripting/learn/\
+#         deep-dives/effective-powershell
+[*.{ps,ps1}]
+end_of_line = crlf
+indent_style = space
+indent_size = 4
+
+# Configure scripts
+# Source: https://www.gnu.org/software/autoconf/manual/autoconf.html
+[configure]
+indent_style = space
+indent_size = 2
+
+# Makefiles
+# Source: https://www.gnu.org/software/make/manual/make.html
+[Makefile]
+indent_style = tab
+indent_size = 4
+
+# C/C++ Header and Source Files
+# Common standard for C/C++ projects.
+# Source: https://google.github.io/styleguide/cppguide.html
+[*.{c,cpp,h,hpp}]
+indent_style = space
+indent_size = 2
+
+# Shell scripts
+# Common standard for shell scripts.
+# Source: https://www.gnu.org/software/bash/manual/
+[*.{sh,bash}]
+indent_style = space
+indent_size = 2
+
+# We want readFile .version to return the version without a newline
+# (like nixpkgs)
+[.version]
+insert_final_newline = false
+
+# Perl
+[*.{pl,pm}]
+indent_style = space
+indent_size = 2
+
+# Ruby
+[*.rb]
+indent_style = space
+indent_size = 2
