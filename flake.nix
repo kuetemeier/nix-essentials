@@ -13,6 +13,23 @@
 
     # Use nixos-unstable as default
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-unit.url = "github:nix-community/nix-unit";
+    nix-unit.inputs.nixpkgs.follows = "nixpkgs";
+    nix-unit.inputs.flake-parts.follows = "flake-parts";
+    nix-unit.inputs.nix-github-actions.follows = "nix-github-actions";
+    nix-unit.inputs.treefmt-nix.follows = "treefmt-nix";
+
+    nix-github-actions.url = "github:nix-community/nix-github-actions";
+    nix-github-actions.inputs.nixpkgs.follows = "nixpkgs";
+
+    # This relates to the hardcoded version of flflake-compat in partitions
+    # from flflake-parts. You can find this in the file
+    # https://github.com/hercules-ci/flake-parts/blob/main/extras/partitions.nix
+    flake-compat.url = "github:edolstra/flake-compat?ref=9ed2ac151eada2306ca8c418ebd97807bb08f6ac";
   };
 
   outputs = inputs @ {
@@ -39,9 +56,10 @@
           formats = importApply ./flakeModules/formats {
             inherit withSystem moduleWithSystem importApply;
           };
-          checkFormats = importApply ./flakeModules/checkFormats {
-            inherit withSystem moduleWithSystem importApply;
-          };
+          # TODO: Need more testing
+          # checkFormats = importApply ./flakeModules/checkFormats {
+          #   inherit withSystem moduleWithSystem importApply;
+          # };
         };
         flakeModules.default = flakeModules.dev;
       in {
@@ -52,7 +70,7 @@
           ++ (with flakeModules; [
             dev
             formats
-            checkFormats
+            # checkFormats
           ]);
 
         systems = [
