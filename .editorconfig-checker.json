@@ -1,0 +1,6 @@
+{
+  "Exclude": [
+    ".crt$",
+    "flake.lock"
+  ]
+}

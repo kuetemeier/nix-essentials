@@ -24,6 +24,10 @@ max_line_length = 100
 # Prevents unnecessary whitespace and ensures clean code.
 trim_trailing_whitespace = true
 
+# Set default value: Indent with spaces
+indent_style = space
+indent_size = 2
+
 # Markdown and Text Files
 # Widely adopted standard for readability.
 # Source: https://github.github.com/gfm/
@@ -119,9 +123,10 @@ indent_size = 4
 
 # Go (gofmt uses tabs)
 # Source: https://golang.org/cmd/gofmt/
+# Go Doc uses 4 spaces for a Tab, so we use a tab_width of '4'
 [*.go]
 indent_style = tab
-tab_width = 8
+tab_width = 4
 
 # Batch files
 # Source: https://docs.microsoft.com/en-us/windows-server/administration/\

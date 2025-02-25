@@ -33,9 +33,15 @@
         # selfLib = import ./nix/lib {inherit inputs lib;};
         inherit (flake-parts-lib) importApply;
         flakeModules = {
-          dev = importApply ./flakeModules/dev {inherit withSystem moduleWithSystem importApply;};
-          formats = importApply ./flakeModules/formats {inherit withSystem moduleWithSystem importApply;};
-          checkFormats = importApply ./flakeModules/checkFormats {inherit withSystem moduleWithSystem importApply;};
+          dev = importApply ./flakeModules/dev {
+            inherit withSystem moduleWithSystem importApply;
+          };
+          formats = importApply ./flakeModules/formats {
+            inherit withSystem moduleWithSystem importApply;
+          };
+          checkFormats = importApply ./flakeModules/checkFormats {
+            inherit withSystem moduleWithSystem importApply;
+          };
         };
         flakeModules.default = flakeModules.dev;
       in {
