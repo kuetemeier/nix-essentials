@@ -16,10 +16,6 @@ format:
     treefmt
     editorconfig-checker
 
-# Health Check for nix environment
-health:
-    nix run "github:juspay/nix-browser#nix-health"
-
 # Ensure Flake inputs are flat
 flat:
     nix run github:linyinfeng/flat-flake -- check .

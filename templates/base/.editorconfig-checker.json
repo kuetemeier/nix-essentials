@@ -1,6 +1,3 @@
 {
-  "Exclude": [
-    ".crt$",
-    "flake.lock"
-  ]
+  "Exclude": [".crt$", "flake.lock"]
 }
